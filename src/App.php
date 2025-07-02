@@ -28,7 +28,7 @@ $user_email = $_SESSION['email'] ?? 'N/A';
             <nav class="main-nav">
                 <ul>
                     <li><a href="./dashboard.php" data-load-content="true">Dashboard</a></li>
-                    <li><a href="./cDatabase.php" data-load-content="true">Database</a></li>
+                    <li><a href="./database-page.php" data-load-content="true">Database</a></li>
                     <li><a href="./upload.php" data-load-content="true">Upload</a></li>
                 </ul>
             </nav>

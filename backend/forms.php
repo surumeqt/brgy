@@ -1,49 +1,37 @@
 <?php
 session_start();
-
-require_once '../database.config.php';
+require_once 'config/database.config.php';
+require_once 'models/User.php';
 
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
-    $remember_me = isset($_POST['remember-me']) ? true : false;
+    $remember_me = isset($_POST['remember-me']);
 
     if (empty($email) || empty($password)) {
         $message = "Please enter both email and password.";
     } else {
-        try {
-            $stmt = $pdo->prepare("SELECT User_ID, User_Address, User_Password FROM users WHERE User_Address = :email");
-            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-            $stmt->execute();
+        $userModel = new User();
+        $user = $userModel->findByEmail($email);
 
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($user && password_verify($password, $user['User_Password'])) {
+            $_SESSION['loggedin'] = true;
+            $_SESSION['id'] = $user['User_ID'];
+            $_SESSION['email'] = $user['User_Address'];
 
-            if ($user) {
-                if (password_verify($password, $user['User_Password'])) {
-                    $_SESSION['loggedin'] = true;
-                    $_SESSION['id'] = $user['User_ID'];
-                    $_SESSION['email'] = $user['User_Address'];
-
-                    if ($remember_me) {
-                        setcookie("user_email", $user['email'], time() + (86400 * 30), "/", "", false, true);
-                    }
-
-                    header("Location: ../src/App.php");
-                    exit();
-                } else {
-                    $message = "Invalid email or password.";
-                }
-            } else {
-                $message = "Invalid email or password.";
+            if ($remember_me) {
+                setcookie("user_email", $user['User_Address'], time() + (86400 * 30), "/", "", false, true);
             }
-        } catch (PDOException $e) {
-            $message = "Database error: " . $e->getMessage();
+
+            header("Location: ../src/app.php");
+            exit();
+        } else {
+            $message = "Invalid email or password.";
         }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
