@@ -30,6 +30,8 @@ $user_email = $_SESSION['email'] ?? 'N/A';
                     <li><a href="./dashboard.php" data-load-content="true">Dashboard</a></li>
                     <li><a href="./database-page.php" data-load-content="true">Database</a></li>
                     <li><a href="./upload.php" data-load-content="true">Upload</a></li>
+                    <li><a href="./lupon.php" data-load-content="true">Lupon</a></li>
+                    <li><a href="./pending-cases.php" data-load-content="true">Pending Cases</a></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -63,5 +65,6 @@ $user_email = $_SESSION['email'] ?? 'N/A';
 
     <script src="./scripts/navigation.js"></script>
     <script src="./scripts/logoutModal.js"></script>
+    <script src="./scripts/changeStatus.js"></script>
 </body>
 </html>

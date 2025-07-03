@@ -20,12 +20,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['loggedin'] = true;
             $_SESSION['id'] = $user['User_ID'];
             $_SESSION['email'] = $user['User_Address'];
-
+            $_SESSION['name'] = $user['User_Name'];
+            if ($user['Position'] == 'Admin' || $user['Position'] == 'Creator'){
+                header("Location: ../src/app.php");
+                exit();
+            }
             if ($remember_me) {
                 setcookie("user_email", $user['User_Address'], time() + (86400 * 30), "/", "", false, true);
             }
-
-            header("Location: ../src/app.php");
+            header("Location: ../src/frontdesk/fd_dashboard.php");
             exit();
         } else {
             $message = "Invalid email or password.";

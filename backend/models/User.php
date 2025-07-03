@@ -9,8 +9,8 @@ class User {
         $this->db = $connection->connect();
     }
 
-    public function findByEmail($email) {
-        $sql = "SELECT User_ID, User_Address, User_Password FROM users WHERE User_Address = :email";
+    public function findByEmail($email): mixed {
+        $sql = "SELECT User_ID, User_Address, User_Password, Position, User_Name FROM users WHERE User_Address = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
