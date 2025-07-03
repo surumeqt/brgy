@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('nav a[data-load-content="true"]');
     const contentDisplay = document.querySelector('.content-display');
